@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import FinanceDashboard from "./pages/finance/FinanceDashboard";
@@ -99,10 +99,47 @@ import CbcDashboard from "./pages/cbc/CbcDashboard";
 import StrandsAndOutcomes from "./pages/cbc/StrandsAndOutcomes";
 import CbcAssessments from "./pages/cbc/CbcAssessments";
 import AppsCenter from "./pages/AppsCenter";
+import ContentSafety from "./pages/ContentSafety";
+import HelpCenter from "./pages/HelpCenter";
 import Messages from "./pages/Messages";
 import ChatModeration from "./pages/ChatModeration";
 import CommsWallet from "./pages/CommsWallet";
+import BackupManagement from "./pages/BackupManagement";
+import SchoolSettings from "./pages/SchoolSettings";
+import RolesPermissions from "./pages/RolesPermissions";
+import NotificationSettings from "./pages/NotificationSettings";
+import AdmissionFormFields from "./pages/AdmissionFormFields";
+import Subscription from "./pages/Subscription";
+import ModuleSettings from "./pages/ModuleSettings";
+import ReportsHub from "./pages/ReportsHub";
+import StudyCenterDashboard from "./pages/study-center/StudyCenterDashboard";
 import ManageLiveClasses from "./pages/live-classes/ManageLiveClasses";
+import LiveClassSettings from "./pages/live-classes/LiveClassSettings";
+import Templates from "./pages/certificates/Templates";
+import GenerateDocument from "./pages/certificates/GenerateDocument";
+import IdCardsStudent from "./pages/id-cards/IdCardsStudent";
+import IdCardTemplates from "./pages/id-cards/IdCardTemplates";
+import PaymentGateway from "./pages/PaymentGateway";
+import AdmissionSettings from "./pages/AdmissionSettings";
+import AuditTrail from "./pages/AuditTrail";
+import SubscriptionHistory from "./pages/SubscriptionHistory";
+import CameraWall from "./pages/cctv/CameraWall";
+import Creatives from "./pages/Creatives";
+import BirthdayManager from "./pages/BirthdayManager";
+import AiChatbot from "./pages/help-center/AiChatbot";
+import KbCategories from "./pages/help-center/KbCategories";
+import FestivalGreetings from "./pages/engagement/FestivalGreetings";
+import AutoSendSettings from "./pages/engagement/AutoSendSettings";
+import AssetManagementDashboard from "./pages/AssetManagementDashboard";
+import HostelDashboard from "./pages/hostel/HostelDashboard";
+import TransportDashboard from "./pages/transport/TransportDashboard";
+import ComplianceDashboard from "./pages/compliance/ComplianceDashboard";
+import NoticeBoard from "./pages/NoticeBoard";
+import EventsHolidays from "./pages/EventsHolidays";
+import ComposeBroadcast from "./pages/ComposeBroadcast";
+import BroadcastHistory from "./pages/BroadcastHistory";
+import ImageGallery from "./pages/ImageGallery";
+import LibraryDashboard from "./pages/LibraryDashboard";
 
 function App() {
   return (
@@ -117,9 +154,42 @@ function App() {
       <Route path="/" element={<MainLayout />}>
         {/* Dashboard will be rendered inside the Outlet of MainLayout */}
         <Route index element={<Dashboard />} />
+        
+        <Route path="/study-center/dashboard" element={<StudyCenterDashboard />} />
+        <Route path="/study-center/classwork-logbook" element={<StudyCenterDashboard initialTab="Classwork & Logbook" />} />
+        <Route path="/study-center/manage-syllabus" element={<StudyCenterDashboard initialTab="Manage Syllabus" />} />
+        <Route path="/study-center/manage-resources" element={<StudyCenterDashboard initialTab="Manage Resources" />} />
+        <Route path="/study-center/homework-assignments" element={<StudyCenterDashboard initialTab="Homework & Assignments" />} />
+        
+        <Route path="/certificates/templates" element={<Templates />} />
+        <Route path="/certificates/document" element={<GenerateDocument />} />
+        <Route path="/certificates/documents" element={<GenerateDocument />} />
+        
+        <Route path="/id-cards/student" element={<IdCardsStudent initialTab="student" />} />
+        <Route path="/id-cards/staff" element={<IdCardsStudent initialTab="staff" />} />
+        <Route path="/id-cards/designs" element={<IdCardsStudent initialTab="designs" />} />
+        <Route path="/id-cards/templates" element={<IdCardTemplates />} />
+        
+        <Route path="/settings/payment-gateway" element={<PaymentGateway />} />
+        <Route path="/settings/admission-settings" element={<AdmissionSettings />} />
+        <Route path="/admission-settings" element={<AdmissionSettings />} />
+        <Route path="/settings/audit-tran" element={<AuditTrail />} />
+        <Route path="/settings/audit-trail" element={<AuditTrail />} />
+        <Route path="/settings/subscription-history" element={<SubscriptionHistory />} />
+        <Route path="/settings/content-safety" element={<ContentSafety />} />
+        <Route path="/help-center/articles" element={<HelpCenter />} />
+        
         <Route path="/apps-center" element={<AppsCenter />} />
         <Route path="/apps-centera" element={<AppsCenter />} />
         <Route path="/live-classes/manage" element={<ManageLiveClasses />} />
+        <Route path="/live-classes/settings" element={<LiveClassSettings />} />
+        
+        {/* Library routes */}
+        <Route path="/library/dashboard" element={<LibraryDashboard />} />
+        <Route path="/library/issue-return" element={<LibraryDashboard initialTab="Issue/Return Book" />} />
+        <Route path="/library/issue-retur" element={<LibraryDashboard initialTab="Issue/Return Book" />} />
+        <Route path="/library/manage" element={<LibraryDashboard initialTab="Manage Books" />} />
+        <Route path="/library/categories" element={<LibraryDashboard initialTab="Categories" />} />
         
         {/* specific routes */}
         <Route path="/finance/dashboard" element={<FinanceDashboard />} />
@@ -127,6 +197,16 @@ function App() {
         <Route path="/finance/collect/:id" element={<StudentFeeCollection />} />
         <Route path="/finance/search-due-fees" element={<SearchDueFees />} />
         <Route path="/finance/transactions" element={<AllTransactions />} />
+
+        {/* Communicate routes */}
+        <Route path="/communicate/notice-board" element={<NoticeBoard />} />
+        <Route path="/communicate/events-holiday" element={<EventsHolidays />} />
+        <Route path="/communicate/events-holidays" element={<EventsHolidays />} />
+        <Route path="/communicate/compose-broadcast" element={<ComposeBroadcast />} />
+        <Route path="/communicate/broadcast-history" element={<BroadcastHistory />} />
+        <Route path="/communicate/image-gallery" element={<ImageGallery />} />
+
+        {/* HRMS routes */}
         <Route path="/finance/receipt/:id" element={<FeeReceipt />} />
         <Route path="/finance/online-transactions" element={<OnlineTransactions />} />
         <Route path="/finance/challans" element={<FeeChallans />} />
@@ -163,7 +243,7 @@ function App() {
         <Route path="/students/search-photo" element={<SearchByPhoto />} />
         <Route path="/students/admission" element={<StudentAdmission />} />
         <Route path="/students/custom-fields" element={<CustomFields />} />
-        <Route path="/students/custom-fields/add" element={<AddNewCustomField />} />
+        <Route path="/students/custom-fields/add" element={<CustomFields />} />
         <Route path="/students/parents" element={<ParentsList />} />
         <Route path="/students/parents/add" element={<AddParent />} />
         <Route path="/students/attendance" element={<StudentAttendance />} />
@@ -227,7 +307,51 @@ function App() {
         <Route path="/messages" element={<Messages />} />
         <Route path="/chat-moderation" element={<ChatModeration />} />
         <Route path="/comms-wallet" element={<CommsWallet />} />
-        
+        <Route path="/backup" element={<BackupManagement />} />
+        <Route path="/settings/school-settings" element={<SchoolSettings />} />
+        <Route path="/settings/custom-fields" element={<CustomFields />} />
+        <Route path="/settings/roles-permissions" element={<RolesPermissions />} />
+        <Route path="/settings/notification-settings" element={<NotificationSettings />} />
+        <Route path="/settings/admission-form-fields" element={<AdmissionFormFields />} />
+        <Route path="/settings/admission-form-field" element={<AdmissionFormFields />} />
+        <Route path="/settings/subscription" element={<Subscription />} />
+        <Route path="/settings/module-settings" element={<ModuleSettings />} />
+        <Route path="/reports" element={<ReportsHub />} />
+        <Route path="/cctv/camera-wall" element={<CameraWall />} />
+        <Route path="/cctv/cameras" element={<CameraWall />} />
+        <Route path="/cctv/access-log" element={<CameraWall />} />
+        <Route path="/engagement/creatives" element={<Creatives />} />
+        <Route path="/engagement/birthday-manager" element={<BirthdayManager />} />
+        <Route path="/engagement/festival-greetings" element={<FestivalGreetings />} />
+        <Route path="/engagement/auto-send-settings" element={<AutoSendSettings />} />
+        <Route path="/asset-management" element={<Navigate to="/asset-management/dashboard" replace />} />
+        <Route path="/asset-management/:tab" element={<AssetManagementDashboard />} />
+        <Route path="/help-center/ai-chatbot" element={<AiChatbot />} />
+        <Route path="/help-center/categories" element={<KbCategories />} />
+        <Route path="/hostel/dashboard" element={<HostelDashboard />} />
+        <Route path="/hostel/student-allocation" element={<HostelDashboard />} />
+        <Route path="/hostel/manage-rooms" element={<HostelDashboard />} />
+        <Route path="/hostel/room-types" element={<HostelDashboard />} />
+        <Route path="/hostel/manage-hostels" element={<HostelDashboard />} />
+        <Route path="/transport/dashboard" element={<TransportDashboard />} />
+        <Route path="/transport/live-operations" element={<TransportDashboard />} />
+        <Route path="/transport/manage-vehicles" element={<TransportDashboard />} />
+        <Route path="/transport/manage-routes" element={<TransportDashboard />} />
+        <Route path="/transport/live-tracking" element={<TransportDashboard />} />
+        <Route path="/transport/drivers" element={<TransportDashboard />} />
+        <Route path="/transport/boarding-register" element={<TransportDashboard />} />
+        {/* Compliance & Governance routes */}
+        <Route path="/compliance/overview" element={<ComplianceDashboard />} />
+        <Route path="/compliance/packs" element={<ComplianceDashboard />} />
+        <Route path="/compliance/school-profile" element={<ComplianceDashboard />} />
+        <Route path="/compliance/field-settings" element={<ComplianceDashboard />} />
+        <Route path="/compliance/document-vault" element={<ComplianceDashboard />} />
+        <Route path="/compliance/checklist" element={<ComplianceDashboard />} />
+        <Route path="/compliance/data-records" element={<ComplianceDashboard />} />
+        <Route path="/compliance/data-validator" element={<ComplianceDashboard />} />
+        <Route path="/compliance/government-reports" element={<ComplianceDashboard />} />
+        <Route path="/compliance/inspections" element={<ComplianceDashboard />} />
+        <Route path="/compliance/calendar" element={<ComplianceDashboard />} />
         {/* Placeholder routes for other menu items to avoid 404s */}
         <Route path="/academics/sessions" element={<AcademicSessions />} />
         <Route path="/academics/sessions/add" element={<AddNewSession />} />

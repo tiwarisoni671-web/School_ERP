@@ -4,6 +4,8 @@ import {
   Grid, List, Filter, BookOpen, User, Calendar, Hourglass, 
   LogOut, Trash2, Edit2, Users
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import ScheduleClassModal from './ScheduleClassModal';
 
 // Mock Data
 const liveClasses = [
@@ -44,9 +46,11 @@ const pastClasses = [
 export default function ManageLiveClasses() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [viewMode, setViewMode] = useState('grid'); 
+  const [isScheduleOpen, setIsScheduleOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen font-sans">
+    <div className="p-6 bg-gray-50 min-h-screen font-sans relative">
       {/* Header */}
       <div className="flex justify-between items-start mb-6">
         <div>
@@ -54,11 +58,17 @@ export default function ManageLiveClasses() {
           <p className="text-gray-500 text-sm mt-1">Schedule, host & track your virtual classrooms</p>
         </div>
         <div className="flex gap-3">
-          <button className="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 font-medium text-sm hover:bg-gray-50 transition-colors shadow-sm">
+          <button 
+            onClick={() => navigate('/live-classes/settings')}
+            className="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 font-medium text-sm hover:bg-gray-50 transition-colors shadow-sm"
+          >
             <Settings className="w-4 h-4 mr-2 text-gray-500" />
             Provider Settings
           </button>
-          <button className="flex items-center px-4 py-2 bg-[#5542f6] text-white rounded-md font-medium text-sm hover:bg-indigo-700 transition-colors shadow-sm">
+          <button 
+            onClick={() => setIsScheduleOpen(true)}
+            className="flex items-center px-4 py-2 bg-[#5542f6] text-white rounded-md font-medium text-sm hover:bg-indigo-700 transition-colors shadow-sm"
+          >
             <Plus className="w-4 h-4 mr-2" />
             Schedule Class
           </button>
@@ -254,6 +264,8 @@ export default function ManageLiveClasses() {
           </table>
         </div>
       </div>
+      
+      <ScheduleClassModal isOpen={isScheduleOpen} onClose={() => setIsScheduleOpen(false)} />
     </div>
   );
 }

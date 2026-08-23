@@ -47,7 +47,7 @@ import {
   ChevronsRight
 } from "lucide-react";
 
-const Sidebar = () => {
+const Sidebar = ({ isCollapsed }) => {
   const [openMenu, setOpenMenu] = useState("Finance & Fees");
 
   const toggleMenu = (name) => {
@@ -398,24 +398,7 @@ const Sidebar = () => {
         { name: "Book Categories", path: "/library/categories" },
       ]
     },
-    { 
-      name: "Inventory", 
-      icon: Warehouse, 
-      path: "#",
-      children: [
-        { name: "Inventory Dashboard", path: "/inventory/dashboard" },
-        { name: "Issue Item", path: "/inventory/issue-item" },
-        { name: "Add Stock", path: "/inventory/add-stock" },
-        { name: "Item List", path: "/inventory/item-list" },
-        { name: "Item Categories", path: "/inventory/item-categories" },
-        { name: "Suppliers", path: "/inventory/suppliers" },
-        { name: "Point of Sale", path: "/inventory/point-of-sale" },
-        { name: "Sales History", path: "/inventory/sales-history" },
-        { name: "Purchase Orders", path: "/inventory/purchase-orders" },
-        { name: "Goods Receipts", path: "/inventory/goods-receipts" },
-        { name: "Supplier Payments", path: "/inventory/supplier-payments" },
-      ]
-    },
+
     { 
       name: "Transport", 
       icon: Bus, 
@@ -448,7 +431,6 @@ const Sidebar = () => {
       children: [
         { name: "Manage Categories", path: "/help-center/categories" },
         { name: "Browse Articles", path: "/help-center/articles" },
-        { name: "AI Chatbot", path: "/help-center/ai-chatbot" },
       ]
     },
     { 
@@ -526,30 +508,34 @@ const Sidebar = () => {
 
   const renderNavSection = (title, items) => (
     <div className="mb-4">
-      <h3 className="px-4 text-[11px] font-semibold text-gray-500 mb-2 tracking-wider">{title}</h3>
+      {!isCollapsed && (
+        <h3 className="px-4 text-[11px] font-semibold text-gray-500 mb-2 tracking-wider">{title}</h3>
+      )}
       <ul className="space-y-0.5">
         {items.map((item) => (
-          <li key={item.name}>
+          <li key={item.name} title={isCollapsed ? item.name : undefined}>
             {item.children ? (
               <div>
                 <button 
-                  onClick={() => toggleMenu(item.name)}
-                  className={`w-full flex items-center justify-between px-4 py-2 text-sm transition-colors border-l-2 ${
-                    openMenu === item.name ? 'border-orange-500 text-white bg-gray-800/30' : 'border-transparent text-gray-300 hover:text-white'
+                  onClick={() => !isCollapsed && toggleMenu(item.name)}
+                  className={`w-full flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} px-4 py-2 text-sm transition-colors border-l-2 ${
+                    openMenu === item.name && !isCollapsed ? 'border-orange-500 text-white bg-gray-800/30' : 'border-transparent text-gray-300 hover:text-white'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <item.icon className="w-4 h-4" />
-                    {item.name}
+                    {!isCollapsed && <span>{item.name}</span>}
                   </div>
-                  {openMenu === item.name ? (
-                    <ChevronDown className="w-4 h-4 text-gray-400" />
-                  ) : (
-                    <ChevronLeft className="w-4 h-4 text-gray-500" />
+                  {!isCollapsed && (
+                    openMenu === item.name ? (
+                      <ChevronDown className="w-4 h-4 text-gray-400" />
+                    ) : (
+                      <ChevronLeft className="w-4 h-4 text-gray-500" />
+                    )
                   )}
                 </button>
                 {/* Dropdown Items */}
-                {openMenu === item.name && (
+                {!isCollapsed && openMenu === item.name && (
                   <ul className="mt-1 mb-2 bg-[#313743] py-1 border-l-2 border-orange-500 ml-0.5">
                     {item.children.map((child) => (
                       <li key={child.name}>
@@ -573,16 +559,16 @@ const Sidebar = () => {
               <NavLink 
                 to={item.path}
                 className={({ isActive }) => 
-                  `flex items-center justify-between px-4 py-2 text-sm hover:text-white transition-colors border-l-2 ${
+                  `flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} px-4 py-2 text-sm hover:text-white transition-colors border-l-2 ${
                     isActive && item.name === 'Assessment' ? 'border-orange-500 text-white bg-gray-800/30' : 'border-transparent text-gray-300'
                   }`
                 }
               >
                 <div className="flex items-center gap-3">
                   <item.icon className="w-4 h-4" />
-                  {item.name}
+                  {!isCollapsed && <span>{item.name}</span>}
                 </div>
-                <ChevronLeft className="w-4 h-4 text-gray-500" />
+                {!isCollapsed && <ChevronLeft className="w-4 h-4 text-gray-500" />}
               </NavLink>
             )}
           </li>
@@ -592,45 +578,47 @@ const Sidebar = () => {
   );
 
   return (
-    <aside className="w-64 bg-[#2b303b] text-gray-300 h-screen flex flex-col overflow-y-auto flex-shrink-0">
+    <aside className={`${isCollapsed ? 'w-16' : 'w-64'} transition-all duration-300 bg-[#2b303b] text-gray-300 h-screen flex flex-col overflow-y-auto flex-shrink-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}>
       {/* Logo Area */}
-      <div className="flex items-center gap-3 px-4 py-4 border-b border-gray-700/50">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-orange-400 to-yellow-500 flex items-center justify-center text-white font-bold text-xs relative overflow-hidden">
+      <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3 px-4'} py-4 border-b border-gray-700/50 min-h-[57px]`}>
+        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-orange-400 to-yellow-500 flex items-center justify-center text-white font-bold text-xs relative overflow-hidden flex-shrink-0">
            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#2b303b] rounded-full"></div>
         </div>
-        <span className="text-white font-semibold tracking-wide">ACS School</span>
+        {!isCollapsed && <span className="text-white font-semibold tracking-wide whitespace-nowrap">ACS School</span>}
       </div>
 
       {/* Search Menu */}
-      <div className="px-4 py-4">
-        <div className="relative">
-          <input 
-            type="text" 
-            placeholder="Search Menu..." 
-            className="w-full bg-[#3b414f] text-sm text-white placeholder-gray-400 rounded-md py-1.5 pl-3 pr-8 focus:outline-none focus:ring-1 focus:ring-gray-500"
-          />
-          <Search className="absolute right-2 top-1.5 w-4 h-4 text-gray-400" />
+      {!isCollapsed && (
+        <div className="px-4 py-4">
+          <div className="relative">
+            <input 
+              type="text" 
+              placeholder="Search Menu..." 
+              className="w-full bg-[#3b414f] text-sm text-white placeholder-gray-400 rounded-md py-1.5 pl-3 pr-8 focus:outline-none focus:ring-1 focus:ring-gray-500"
+            />
+            <Search className="absolute right-2 top-1.5 w-4 h-4 text-gray-400" />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Navigation Sections */}
       <div className="flex-1 py-2 pb-8">
         {/* Main Navigation (Special render without chevrons) */}
-        <div className="mb-4">
-          <h3 className="px-4 text-[11px] font-semibold text-gray-500 mb-2 tracking-wider">MAIN NAVIGATION</h3>
+        <div className={`mb-4 ${isCollapsed ? 'mt-4' : ''}`}>
+          {!isCollapsed && <h3 className="px-4 text-[11px] font-semibold text-gray-500 mb-2 tracking-wider">MAIN NAVIGATION</h3>}
           <ul className="space-y-0.5">
             {mainNav.map((item) => (
-              <li key={item.name}>
+              <li key={item.name} title={isCollapsed ? item.name : undefined}>
                 <NavLink 
                   to={item.path}
                   className={({ isActive }) => 
-                    `flex items-center gap-3 px-4 py-2 text-sm hover:text-white transition-colors border-l-2 ${
+                    `flex items-center ${isCollapsed ? 'justify-center' : 'gap-3 px-4'} py-2 text-sm hover:text-white transition-colors border-l-2 ${
                       isActive && item.path !== "/erp-navigator" && item.path !== "/contact-support" ? 'border-orange-500 text-white bg-gray-800/30' : 'border-transparent text-gray-300'
                     }`
                   }
                 >
-                  <item.icon className="w-4 h-4" />
-                  {item.name}
+                  <item.icon className="w-4 h-4 flex-shrink-0" />
+                  {!isCollapsed && <span className="whitespace-nowrap">{item.name}</span>}
                 </NavLink>
               </li>
             ))}

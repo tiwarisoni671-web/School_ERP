@@ -165,7 +165,9 @@ const initialConversations = [
 
 export default function ChatModeration() {
   // Settings States
-  const [chatEnabled, setChatEnabled] = useState(true);
+  const [chatEnabled, setChatEnabled] = useState(() => {
+    return localStorage.getItem("chatEnabled") === "true";
+  });
   const [teacherStudent, setTeacherStudent] = useState(true);
   const [teacherParent, setTeacherParent] = useState(true);
   const [showSaveToast, setShowSaveToast] = useState(false);
@@ -207,8 +209,9 @@ export default function ChatModeration() {
     setFilteredConversations(conversations);
   };
 
-  // Save Settings Configuration
+  // Save Settings Configuration to localStorage
   const handleSaveSettings = () => {
+    localStorage.setItem("chatEnabled", chatEnabled ? "true" : "false");
     setShowSaveToast(true);
     setTimeout(() => {
       setShowSaveToast(false);
