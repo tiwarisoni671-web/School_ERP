@@ -218,7 +218,7 @@ const Sidebar = ({ isCollapsed }) => {
         { name: "Leave Types", path: "/hr/leave-types" },
         { name: "Departments", path: "/hr/departments" },
         { name: "Designations", path: "/hr/designations" },
-        { name: "Staff ID Card", path: "/hr/staff-id-card" },
+        { name: "Staff ID Card", path: "/hr/id-cards" },
         { name: "HR Settings", path: "/hr/settings" },
         { name: "Manage Staff Loans", path: "/hr/manage-loans" },
         { name: "Salary Templates", path: "/hr/salary-templates" },

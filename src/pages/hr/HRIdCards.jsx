@@ -23,10 +23,10 @@ export default function HRIdCards() {
     { name: 'Set Salary', icon: IndianRupee, path: '/hr/set-salary' },
     { name: 'Salary Templates', icon: FileText, path: '/hr/salary-templates' },
     { name: 'Payroll', icon: Calculator, path: '/hr/payroll' },
-    { name: 'Loans', icon: CreditCard, path: '/hr/loans' },
+    { name: 'Loans', icon: CreditCard, path: '/hr/manage-loans' },
     { name: 'Appraisals', icon: Star, path: '/hr/appraisals' },
     { name: 'Appraisal Cycles', icon: RefreshCw, path: '/hr/appraisal-cycles' },
-    { name: 'Criteria', icon: CheckSquare, path: '/hr/criteria' },
+    { name: 'Criteria', icon: CheckSquare, path: '/hr/appraisal-criteria' },
     { name: 'Departments', icon: Building, path: '/hr/departments' },
     { name: 'Designations', icon: Briefcase, path: '/hr/designations' },
     { name: 'ID Cards', icon: IdCard, path: '/hr/id-cards', active: true },
@@ -122,7 +122,10 @@ export default function HRIdCards() {
             </button>
           ))}
         </div>
-        <button className="bg-[#5F52FF] hover:bg-[#4f42e6] text-white px-4 py-1.5 rounded font-bold text-[13px] flex items-center gap-2 cursor-pointer shadow-sm">
+        <button 
+          onClick={() => navigate('/id-cards/templates')}
+          className="bg-[#5F52FF] hover:bg-[#4f42e6] text-white px-4 py-1.5 rounded font-bold text-[13px] flex items-center gap-2 cursor-pointer shadow-sm"
+        >
           <Plus className="w-4 h-4" /> New Card Design
         </button>
       </div>
@@ -278,9 +281,75 @@ export default function HRIdCards() {
                 <Eye className="w-4 h-4 text-slate-400" />
                 <span className="text-[11px] font-bold text-slate-400 tracking-wider">LIVE PREVIEW</span>
               </div>
-              <div className="border-2 border-dashed border-slate-300 rounded-lg h-[350px] flex flex-col items-center justify-center text-slate-400 bg-slate-50/50">
-                <ImageIcon className="w-10 h-10 mb-2 opacity-50" />
-                <p className="text-[13px]">Select a design to preview it here</p>
+              <div className="border border-slate-200 shadow-xl rounded-xl h-[420px] w-full max-w-[280px] mx-auto bg-white overflow-hidden flex flex-col relative group">
+                
+                {/* ID Card Background Pattern */}
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#5F52FF 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
+                
+                {/* ID Card Header */}
+                <div className="bg-gradient-to-r from-[#5F52FF] to-[#4f42e6] px-4 py-4 text-center relative">
+                  {/* Fake School Logo */}
+                  <div className="w-10 h-10 bg-white rounded-full mx-auto mb-2 flex items-center justify-center shadow-sm">
+                    <span className="text-[#5F52FF] font-black text-lg">AC</span>
+                  </div>
+                  <h3 className="text-white font-black text-[15px] uppercase tracking-wide">ACS School</h3>
+                  <p className="text-white/80 text-[9px] uppercase tracking-wider font-semibold mt-0.5">Education for Excellence</p>
+                </div>
+                
+                {/* ID Card Body */}
+                <div className="flex-1 flex flex-col items-center pt-6 pb-4 px-5 relative z-10">
+                  {/* Photo Profile */}
+                  <div className="w-24 h-24 rounded-full border-4 border-white shadow-lg overflow-hidden bg-orange-100 mb-3 relative z-10 -mt-12">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Amit Sharma" alt="Staff Photo" className="w-full h-full object-cover" />
+                  </div>
+                  
+                  {/* Name & Designation */}
+                  <h2 className="text-[18px] font-black text-slate-800 uppercase tracking-tight text-center leading-tight">Amit Sharma</h2>
+                  <p className="text-[12px] font-bold text-[#5F52FF] mt-1 mb-4">Senior Teacher</p>
+                  
+                  {/* Details Grid */}
+                  <div className="w-full space-y-2 text-[11px]">
+                    <div className="flex border-b border-slate-100 pb-1">
+                      <span className="w-20 font-bold text-slate-500">ID No</span>
+                      <span className="font-bold text-slate-800">: STF-001</span>
+                    </div>
+                    <div className="flex border-b border-slate-100 pb-1">
+                      <span className="w-20 font-bold text-slate-500">Dept</span>
+                      <span className="font-bold text-slate-800">: Mathematics</span>
+                    </div>
+                    <div className="flex border-b border-slate-100 pb-1">
+                      <span className="w-20 font-bold text-slate-500">Phone</span>
+                      <span className="font-bold text-slate-800">: 9876543210</span>
+                    </div>
+                    <div className="flex pb-1">
+                      <span className="w-20 font-bold text-slate-500">Blood Grp</span>
+                      <span className="font-bold text-red-600">: O+</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* ID Card Footer */}
+                <div className="bg-slate-50 px-4 py-3 flex justify-between items-end border-t border-slate-200">
+                  <div className="flex flex-col items-center">
+                    <div className="w-12 border-b border-slate-400 mb-1"></div>
+                    <span className="text-[8px] font-bold text-slate-500 uppercase">Holder Sign</span>
+                  </div>
+                  
+                  {/* Fake Barcode */}
+                  <div className="flex flex-col items-center opacity-70">
+                    <div className="flex gap-[1px] h-6 items-end">
+                      <div className="w-[2px] h-full bg-slate-800"></div><div className="w-[1px] h-5 bg-slate-800"></div><div className="w-[3px] h-full bg-slate-800"></div><div className="w-[1px] h-full bg-slate-800"></div><div className="w-[2px] h-4 bg-slate-800"></div><div className="w-[3px] h-full bg-slate-800"></div><div className="w-[1px] h-6 bg-slate-800"></div><div className="w-[2px] h-5 bg-slate-800"></div><div className="w-[1px] h-full bg-slate-800"></div><div className="w-[2px] h-4 bg-slate-800"></div>
+                    </div>
+                    <span className="text-[7px] tracking-[2px] font-bold text-slate-800 mt-0.5">STF001</span>
+                  </div>
+                  
+                  <div className="flex flex-col items-center">
+                    <div className="w-12 border-b border-slate-400 mb-1 relative">
+                       <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Stylized_signature_of_John_Hancock.svg" className="absolute bottom-0 w-full opacity-40 mix-blend-multiply" />
+                    </div>
+                    <span className="text-[8px] font-bold text-slate-500 uppercase">Auth Sign</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

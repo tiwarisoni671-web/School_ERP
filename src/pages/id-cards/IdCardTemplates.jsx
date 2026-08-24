@@ -1,154 +1,133 @@
-import React, { useState, useMemo } from 'react';
-import { Search, FileEdit, PenTool, LayoutTemplate, User, Users, GraduationCap, ArrowLeft } from 'lucide-react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const DUMMY_TEMPLATES = [
-  { id: 1, title: 'Classic Portrait ID Card', type: 'Id Card', image: 'https://placehold.co/400x600/ffffff/5542f6?text=ID+Card\nPortrait' },
-  { id: 2, title: 'Modern Portrait ID Card', type: 'Id Card', image: 'https://placehold.co/400x600/ffffff/5542f6?text=ID+Card\nModern' },
-  { id: 3, title: 'Vibrant Portrait ID Card', type: 'Id Card', image: 'https://placehold.co/400x600/ffffff/ea4335?text=ID+Card\nVibrant' },
-  { id: 4, title: 'Professional Landscape ID Card', type: 'Id Card', image: 'https://placehold.co/600x400/ffffff/1a73e8?text=ID+Card\nLandscape' },
-  { id: 5, title: 'Golden Crest (Canvas)', type: 'Id Card', image: 'https://placehold.co/400x600/ffffff/fbbc04?text=Golden+Crest' },
-  { id: 6, title: 'Azure Classic (Canvas)', type: 'Id Card', image: 'https://placehold.co/400x600/ffffff/4285f4?text=Azure+Classic' },
-  { id: 7, title: 'Emerald Band (Canvas)', type: 'Id Card', image: 'https://placehold.co/400x600/ffffff/34a853?text=Emerald+Band' },
-  { id: 8, title: 'Minimal Slate (Canvas)', type: 'Id Card', image: 'https://placehold.co/400x600/ffffff/5f6368?text=Minimal+Slate' },
-  { id: 9, title: 'Academic Excellence Award', type: 'Academic', image: 'https://placehold.co/600x400/ffffff/333333?text=Academic+Award' },
-  { id: 10, title: 'Mid-term Admit Card', type: 'Admit Card', image: 'https://placehold.co/400x600/ffffff/333333?text=Admit+Card' },
-  { id: 11, title: 'Student Bonafide', type: 'Bonafide', image: 'https://placehold.co/600x400/ffffff/333333?text=Bonafide' },
-  { id: 12, title: 'Participation Certificate', type: 'Certificate', image: 'https://placehold.co/600x400/ffffff/333333?text=Certificate' },
-];
-
-const TABS = [
-  { id: 'All', label: 'All' },
-  { id: 'Academic', label: 'Academic' },
-  { id: 'Admit Card', label: 'Admit Card' },
-  { id: 'Bonafide', label: 'Bonafide' },
-  { id: 'Certificate', label: 'Certificate' },
-  { id: 'Id Card', label: 'Id Card' },
-];
+import { FileText, PenTool, Search } from 'lucide-react';
 
 export default function IdCardTemplates() {
   const navigate = useNavigate();
-  const [templates] = useState(DUMMY_TEMPLATES);
-  const [activeTab, setActiveTab] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
+  
+  const categories = [
+    { name: 'All', count: 111 },
+    { name: 'Academic', count: 1 },
+    { name: 'Admit Card', count: 3 },
+    { name: 'Bonafide', count: 9 },
+    { name: 'Certificate', count: 2 },
+    { name: 'Character Certificate', count: 8 },
+    { name: 'Dsf', count: 1 },
+    { name: 'Fee Receipt', count: 15 },
+    { name: 'General', count: 1 },
+    { name: 'Id Card', count: 19 },
+    { name: 'Interactive', count: 5 },
+    { name: 'Marksheet', count: 23 },
+    { name: 'Staff Id Card', count: 14 },
+    { name: 'Transfer Certificate', count: 9 }
+  ];
 
-  // Filter logic
-  const filteredTemplates = useMemo(() => {
-    return templates.filter(t => {
-      const matchesSearch = t.title.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesTab = activeTab === 'All' || t.type === activeTab;
-      return matchesSearch && matchesTab;
-    });
-  }, [templates, activeTab, searchQuery]);
+  const [activeCategory, setActiveCategory] = useState('Id Card');
 
-  // Tab counts
-  const getTabCount = (tabId) => {
-    if (tabId === 'All') return 111; // Dummy total to match screenshot
-    if (tabId === 'Id Card') return 10;
-    if (tabId === 'Admit Card') return 3;
-    if (tabId === 'Bonafide') return 9;
-    return 1;
+  // Generate 10 dummy templates based on the active category
+  const templates = Array.from({ length: 10 }).map((_, i) => ({
+    id: i + 1,
+    name: `${activeCategory === 'All' ? 'Awesome' : activeCategory} Design ${i + 1}`,
+    type: activeCategory === 'All' ? 'Id Card' : activeCategory,
+    // Just using some nice varied colors for placeholder templates
+    color: ['bg-blue-100', 'bg-red-100', 'bg-green-100', 'bg-orange-100', 'bg-purple-100'][i % 5]
+  }));
+
+  const handleStartDesign = () => {
+    navigate('/id-cards/canvas-designer');
   };
 
   return (
-    <div className="bg-[#f4f7fc] min-h-screen font-sans p-6 pb-24">
+    <div className="min-h-screen bg-[#f3f4f6] font-sans flex flex-col">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <div className="flex items-center">
-          <button onClick={() => navigate(-1)} className="mr-3 text-gray-500 hover:text-gray-800 transition-colors">
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <div>
-            <h1 className="text-[24px] font-semibold text-gray-800">Template Gallery</h1>
-            <p className="text-gray-500 text-sm mt-1">Pick a pre-built design, or start fresh</p>
-          </div>
+      <div className="bg-white px-6 py-4 flex items-center justify-between shadow-sm z-10 relative">
+        <div>
+          <h1 className="text-xl font-bold text-slate-800">Template Gallery</h1>
+          <p className="text-[13px] text-slate-500 mt-1">Pick a pre-built design, or start fresh</p>
         </div>
-        <div className="flex space-x-3">
-          <button className="flex items-center px-4 py-2 border border-gray-300 bg-white text-gray-700 rounded-md text-sm font-bold hover:bg-gray-50 transition-colors">
-            <FileEdit className="w-4 h-4 mr-2" />
-            Start from Scratch
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={handleStartDesign}
+            className="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded font-bold text-[13px] flex items-center gap-2 hover:bg-slate-50 transition-colors shadow-sm cursor-pointer"
+          >
+            <FileText className="w-4 h-4" /> Start from Scratch
           </button>
-          <button className="flex items-center px-4 py-2 bg-[#5542f6] text-white rounded-md text-sm font-bold hover:bg-[#4a3ae0] transition-colors shadow-sm">
-            <PenTool className="w-4 h-4 mr-2" />
-            Canvas Designer
+          <button 
+            onClick={handleStartDesign}
+            className="px-4 py-2 bg-[#5F52FF] hover:bg-[#4f42e6] text-white border border-[#5F52FF] rounded font-bold text-[13px] flex items-center gap-2 transition-colors shadow-sm cursor-pointer"
+          >
+            <PenTool className="w-4 h-4" /> Canvas Designer
           </button>
         </div>
       </div>
 
-      {/* Toolbar */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 mb-6 flex flex-col md:flex-row items-center gap-4 overflow-x-auto overflow-y-hidden scrollbar-hide">
-        
-        {/* Search */}
-        <div className="relative w-full md:w-64 flex-shrink-0">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-4 w-4 text-gray-400" />
-          </div>
-          <input
-            type="text"
-            placeholder="Search templates..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#5542f6] focus:border-[#5542f6]"
+      {/* Filter Bar */}
+      <div className="bg-white border-t border-slate-200 px-6 py-3 flex items-center gap-4 overflow-x-auto custom-scrollbar shadow-sm">
+        <div className="relative min-w-[200px]">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input 
+            type="text" 
+            placeholder="Search templates..." 
+            className="w-full pl-9 pr-3 py-1.5 border border-slate-300 rounded-full text-[13px] text-slate-600 focus:outline-none focus:border-[#5F52FF]"
           />
         </div>
-
-        {/* Tabs */}
-        <div className="flex items-center space-x-2 flex-1 whitespace-nowrap overflow-x-auto scrollbar-hide pb-1">
-          {TABS.map((tab) => {
-            const isActive = activeTab === tab.id;
-            const count = getTabCount(tab.id);
-
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center px-3 py-1.5 rounded-full text-sm transition-colors border ${
-                  isActive
-                    ? 'bg-transparent text-gray-800 border-gray-300 font-bold'
-                    : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
-                }`}
-              >
-                {tab.label}
-                <span 
-                  className={`ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-bold ${
-                    isActive ? 'bg-gray-200 text-gray-800' : 'bg-gray-100 text-gray-500'
-                  }`}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+        
+        <div className="flex items-center gap-2 min-w-max">
+          {categories.map((cat) => (
+            <button
+              key={cat.name}
+              onClick={() => setActiveCategory(cat.name)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[12px] font-bold cursor-pointer transition-colors ${
+                activeCategory === cat.name 
+                  ? 'bg-[#5F52FF] text-white border-[#5F52FF]' 
+                  : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'
+              }`}
+            >
+              {cat.name} <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${activeCategory === cat.name ? 'bg-white/20' : 'bg-slate-100'}`}>{cat.count}</span>
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Grid */}
-      {filteredTemplates.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredTemplates.map((template) => (
-            <div key={template.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col group">
-              {/* Image Preview */}
-              <div className="h-64 border-b border-gray-100 p-4 bg-gray-50 flex items-center justify-center relative">
-                <img 
-                  src={template.image} 
-                  alt={template.title} 
-                  className="max-h-full max-w-full object-contain drop-shadow-md border border-gray-200 bg-white" 
-                />
-              </div>
-
-              {/* Footer Details */}
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-sm font-bold text-gray-800 line-clamp-2 pr-2" title={template.title}>
-                    {template.title}
-                  </h3>
-                  <span className="inline-block text-xs font-medium text-gray-500 flex-shrink-0">
-                    {template.type}
-                  </span>
-                </div>
+      {/* Template Grid */}
+      <div className="flex-1 p-6 overflow-y-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-[1400px] mx-auto">
+          {templates.map((template) => (
+            <div key={template.id} className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-shadow">
+              
+              {/* Template Preview (Dummy UI for different cards) */}
+              <div className={`h-[250px] w-full ${template.color} flex flex-col items-center justify-center p-4 relative`}>
+                <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
                 
+                {/* Dummy ID Card Visual */}
+                <div className="w-[140px] h-[210px] bg-white rounded-lg shadow-lg flex flex-col overflow-hidden transform group-hover:scale-105 transition-transform duration-300">
+                  <div className="h-[40px] bg-[#5F52FF] w-full"></div>
+                  <div className="flex-1 flex flex-col items-center pt-4 px-3">
+                    <div className="w-12 h-12 bg-slate-200 rounded-full mb-2"></div>
+                    <div className="h-2 w-20 bg-slate-200 rounded mb-1"></div>
+                    <div className="h-1.5 w-12 bg-slate-100 rounded mb-4"></div>
+                    
+                    <div className="w-full space-y-1.5">
+                      <div className="h-1.5 w-full bg-slate-100 rounded"></div>
+                      <div className="h-1.5 w-5/6 bg-slate-100 rounded"></div>
+                      <div className="h-1.5 w-4/6 bg-slate-100 rounded"></div>
+                    </div>
+                  </div>
+                  <div className="h-[30px] bg-slate-50 w-full mt-auto flex justify-center items-center">
+                    <div className="w-10 h-3 bg-slate-200 rounded-sm"></div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Template Details */}
+              <div className="p-3 border-t border-slate-200 bg-white">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-[12px] font-bold text-slate-800">{template.name}</span>
+                  <span className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">{template.type}</span>
+                </div>
                 <button 
-                  className="mt-auto w-full py-2.5 bg-[#f0efff] text-[#5542f6] font-bold text-sm rounded-md border border-transparent hover:border-[#5542f6]/30 transition-colors"
+                  onClick={handleStartDesign}
+                  className="w-full py-2 bg-[#f8f9ff] text-[#5F52FF] font-bold text-[12px] rounded hover:bg-[#5F52FF] hover:text-white transition-colors cursor-pointer"
                 >
                   Use this template
                 </button>
@@ -156,11 +135,7 @@ export default function IdCardTemplates() {
             </div>
           ))}
         </div>
-      ) : (
-        <div className="text-center py-20 bg-white rounded-lg border border-gray-200 shadow-sm">
-          <p className="text-gray-500 text-lg">No templates found.</p>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

@@ -108,6 +108,13 @@ import HRLeaveTypes from "./pages/hr/HRLeaveTypes";
 import HRDepartments from "./pages/hr/HRDepartments";
 import HRDesignations from "./pages/hr/HRDesignations";
 import HRIdCards from "./pages/hr/HRIdCards";
+import HRSettings from "./pages/hr/HRSettings";
+import HRLoans from "./pages/hr/HRLoans";
+import HRSalaryTemplates from "./pages/hr/HRSalaryTemplates";
+import HRSalaryTemplateForm from "./pages/hr/HRSalaryTemplateForm";
+import HRAppraisals from "./pages/hr/HRAppraisals";
+import HRAppraisalCycles from "./pages/hr/HRAppraisalCycles";
+import HRAppraisalCriteria from "./pages/hr/HRAppraisalCriteria";
 
 import ManageOnlineExams from "./pages/online-exams/ManageOnlineExams";
 import QuestionBank from "./pages/online-exams/QuestionBank";
@@ -209,6 +216,7 @@ import Templates from "./pages/certificates/Templates";
 import GenerateDocument from "./pages/certificates/GenerateDocument";
 import IdCardsStudent from "./pages/id-cards/IdCardsStudent";
 import IdCardTemplates from "./pages/id-cards/IdCardTemplates";
+import CanvasDesigner from "./pages/id-cards/CanvasDesigner";
 import PaymentGateway from "./pages/PaymentGateway";
 import AdmissionSettings from "./pages/AdmissionSettings";
 import AuditTrail from "./pages/AuditTrail";
@@ -259,6 +267,7 @@ function App() {
         <Route path="/id-cards/staff" element={<HRIdCards />} />
         <Route path="/id-cards/designs" element={<IdCardsStudent initialTab="designs" />} />
         <Route path="/id-cards/templates" element={<IdCardTemplates />} />
+        <Route path="/id-cards/canvas-designer" element={<CanvasDesigner />} />
         
         <Route path="/settings/payment-gateway" element={<PaymentGateway />} />
         <Route path="/settings/admission-settings" element={<AdmissionSettings />} />
@@ -525,8 +534,10 @@ function App() {
         <Route path="/ptm/dashboard" element={<PTMDashboard />} />
         <Route path="/ptm/schedule" element={<SchedulePTM />} />
         <Route path="/ptm/attendance" element={<PTMAttendance />} />
+        <Route path="/ptm/attendance-remarks" element={<PTMAttendance />} />
         <Route path="/ptm/details/:id" element={<PTMDetail />} />
         <Route path="/ptm/followups" element={<PTMFollowups />} />
+        <Route path="/ptm/follow-ups" element={<PTMFollowups />} />
         <Route path="/ptm/reports" element={<PTMReports />} />
         <Route path="/ptm/guide" element={<PTMGuide />} />
 
@@ -542,9 +553,20 @@ function App() {
         <Route path="/hr/set-salary" element={<HRSetSalary />} />
         <Route path="/hr/approve-leave" element={<HRApproveLeave />} />
         <Route path="/hr/leave-types" element={<HRLeaveTypes />} />
+        
+        {/* NEW HR ROUTES FOR APPRAISALS */}
+        <Route path="/hr/appraisals" element={<HRAppraisals />} />
+        <Route path="/hr/appraisal-cycles" element={<HRAppraisalCycles />} />
+        <Route path="/hr/appraisal-criteria" element={<HRAppraisalCriteria />} />
+        
         <Route path="/hr/departments" element={<HRDepartments />} />
         <Route path="/hr/designations" element={<HRDesignations />} />
         <Route path="/hr/id-cards" element={<HRIdCards />} />
+        <Route path="/hr/manage-loans" element={<HRLoans />} />
+        <Route path="/hr/salary-templates" element={<HRSalaryTemplates />} />
+        <Route path="/hr/salary-templates/create" element={<HRSalaryTemplateForm />} />
+        <Route path="/hr/salary-templates/edit/:id" element={<HRSalaryTemplateForm isEdit={true} />} />
+        <Route path="/hr/settings" element={<HRSettings />} />
 
         <Route path="/online-exams/manage" element={<ManageOnlineExams />} />
         <Route path="/online-exams/question-bank" element={<QuestionBank />} />
