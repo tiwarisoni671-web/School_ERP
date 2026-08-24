@@ -48,7 +48,7 @@ import {
 } from "lucide-react";
 
 const Sidebar = ({ isCollapsed }) => {
-  const [openMenu, setOpenMenu] = useState("Finance & Fees");
+  const [openMenu, setOpenMenu] = useState(null);
 
   const toggleMenu = (name) => {
     setOpenMenu(prev => (prev === name ? null : name));
