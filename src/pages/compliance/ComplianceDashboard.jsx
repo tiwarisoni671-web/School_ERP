@@ -4,7 +4,7 @@ import {
   Shield, AlertTriangle, CheckCircle, ChevronRight, X, Package,
   Download, Trash2, Info, Globe, BookOpen, Flag, School, HelpCircle,
   Save, ToggleLeft, ToggleRight, FolderOpen, FileText, Plus,
-  Filter, Search, CheckSquare, Users, Building2,
+  Filter, Search, CheckSquare, Users, Building2, UserCheck, FileDown, FileUp, Grid, Menu, List, CheckCheck, Play, ListFilter, AlertCircle, XCircle, UserX, FileOutput, ClipboardList, Calendar
 } from "lucide-react";
 
 /* ─── Shared: Circular Gauge ─── */
@@ -55,13 +55,17 @@ const INITIAL_PACKS = [
   { id: "generic", icon: "🌐", name: "Generic / International", primary: true, desc: "No country-specific statutory fields. Hides India-only columns (caste, BPL, RTE, Aadhaar). Safe default for schools outside India/Kenya.", installed: true },
 ];
 
-/* ─── Route → view map ─── */
 function getView(pathname) {
   if (pathname.includes("school-profile")) return "school-profile";
   if (pathname.includes("field-settings")) return "field-settings";
   if (pathname.includes("document-vault")) return "document-vault";
   if (pathname.includes("checklist")) return "checklist";
   if (pathname.includes("packs")) return "packs";
+  if (pathname.includes("data-records")) return "data-records";
+  if (pathname.includes("data-validator")) return "data-validator";
+  if (pathname.includes("government-reports")) return "government-reports";
+  if (pathname.includes("inspections")) return "inspections";
+  if (pathname.includes("calendar")) return "calendar";
   return "overview";
 }
 
@@ -102,6 +106,17 @@ export default function ComplianceDashboard() {
     remind60: false, remind30: true, remind14: false, remind7: true,
     notes: "",
   });
+
+  // Data Records state
+  const [recordRole, setRecordRole] = useState("Students");
+  const [recordView, setRecordView] = useState("List");
+  const [isBulkEntry, setIsBulkEntry] = useState(false);
+
+  // Data Validator state
+  const [validatorRole, setValidatorRole] = useState("Students");
+  const [isValidated, setIsValidated] = useState(false);
+  const [validatorSearch, setValidatorSearch] = useState("");
+  const [activeFilter, setActiveFilter] = useState("All checks");
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 3000); };
 
@@ -635,6 +650,380 @@ export default function ComplianceDashboard() {
               </div>
               <h3 className="font-bold text-slate-700 text-sm">No document categories</h3>
               <p className="text-[11px] text-indigo-400 font-semibold text-center">Your installed pack defines no document categories.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════ DATA RECORDS ══════════════ */}
+      {view === "data-records" && (
+        <div className="space-y-5 animate-in fade-in duration-150">
+          <div className="flex justify-between items-start gap-3">
+            <div>
+              {!isBulkEntry ? (
+                <>
+                  <div className="flex items-center gap-2"><UserCheck className="w-6 h-6 text-slate-850" /><h1 className="text-2xl font-bold text-slate-850 tracking-tight">Compliance Data Records</h1></div>
+                  <p className="text-slate-450 text-xs font-semibold mt-0.5 ml-8">Capture pack fields (APAAR, CWSN, TET ...) on each student and staff record.</p>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center gap-2"><Grid className="w-6 h-6 text-slate-850" /><h1 className="text-2xl font-bold text-slate-850 tracking-tight">Bulk Compliance Entry</h1></div>
+                  <p className="text-slate-450 text-xs font-semibold mt-0.5 ml-8">Fill pack fields for a whole class at once, or round-trip the data through Excel.</p>
+                </>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              {!isBulkEntry ? (
+                <button onClick={() => setIsBulkEntry(true)} className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg flex items-center gap-1.5 shadow-md cursor-pointer border-none active:scale-95 transition-all">
+                  <Grid className="w-4 h-4" /> Bulk entry
+                </button>
+              ) : (
+                <>
+                  <button onClick={() => setIsBulkEntry(false)} className="px-4 py-2 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg flex items-center gap-1.5 cursor-pointer shadow-sm">
+                    <FileDown className="w-3.5 h-3.5" /> Download CSV
+                  </button>
+                  <button className="px-4 py-2 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg flex items-center gap-1.5 cursor-pointer shadow-sm">
+                    <FileUp className="w-3.5 h-3.5" /> Import CSV
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            {/* Roles Toggle */}
+            <div className="flex items-center border border-slate-200 rounded-full p-1 bg-white">
+              <button 
+                onClick={() => setRecordRole("Students")}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-colors cursor-pointer border-none ${recordRole === "Students" ? "bg-indigo-600 text-white" : "bg-transparent text-slate-600 hover:bg-slate-50"}`}
+              >
+                Students
+              </button>
+              <button 
+                onClick={() => setRecordRole("Staff")}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-colors cursor-pointer border-none ${recordRole === "Staff" ? "bg-indigo-600 text-white" : "bg-transparent text-slate-600 hover:bg-slate-50"}`}
+              >
+                Staff
+              </button>
+            </div>
+
+            {/* View Toggle */}
+            <div className="flex items-center border border-slate-200 rounded-full p-1 bg-white">
+              <button 
+                onClick={() => setRecordView("List")}
+                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition-colors cursor-pointer border-none ${recordView === "List" ? "bg-indigo-600 text-white" : "bg-transparent text-slate-600 hover:bg-slate-50"}`}
+              >
+                <Menu className="w-3.5 h-3.5" /> List
+              </button>
+              <button 
+                onClick={() => setRecordView("Grid")}
+                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition-colors cursor-pointer border-none ${recordView === "Grid" ? "bg-indigo-600 text-white" : "bg-transparent text-slate-600 hover:bg-slate-50"}`}
+              >
+                <Grid className="w-3.5 h-3.5" /> Grid
+              </button>
+            </div>
+          </div>
+
+          {/* Info Banner */}
+          <div className="bg-indigo-50/50 border border-indigo-100 rounded-lg p-3 flex items-center gap-2 text-[11px] text-indigo-500 font-semibold">
+            <Info className="w-4 h-4 shrink-0" />
+            Showing students on the current session roster (excludes left / passed-out / disabled students).
+          </div>
+
+          {/* Empty State */}
+          <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-3xs">
+            <div className="flex flex-col items-center justify-center py-20 space-y-4">
+              <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center">
+                <Filter className="w-5 h-5 text-indigo-400" />
+              </div>
+              <div className="text-center space-y-1">
+                <h3 className="font-bold text-slate-700 text-sm">No compliance fields active for student</h3>
+                <p className="text-[11px] text-slate-500 font-semibold">
+                  <button onClick={() => navigate("/compliance/packs")} className="text-orange-500 hover:underline bg-transparent border-none cursor-pointer">Install a pack</button> or enable fields in <button onClick={() => navigate("/compliance/field-settings")} className="text-orange-500 hover:underline bg-transparent border-none cursor-pointer">Field Settings</button>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════ DATA VALIDATOR ══════════════ */}
+      {view === "data-validator" && (
+        <div className="space-y-5 animate-in fade-in duration-150">
+          {/* Success Banner */}
+          {isValidated && (
+            <div className="bg-emerald-500 text-white px-5 py-3 rounded-lg text-sm font-bold flex items-center justify-between">
+              <span>Validation passed — no issues found.</span>
+              <button onClick={() => setIsValidated(false)} className="text-white hover:text-emerald-100 cursor-pointer bg-transparent border-none p-1">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
+          {/* Header */}
+          <div className="flex justify-between items-start gap-3">
+            <div>
+              <div className="flex items-center gap-2"><CheckCheck className="w-6 h-6 text-slate-850" /><h1 className="text-2xl font-bold text-slate-850 tracking-tight">Data Validator</h1></div>
+              <p className="text-slate-450 text-xs font-semibold mt-0.5 ml-8">Catches missing/duplicate APAAR, invalid Aadhaar checksum, DOB/age, IFSC and category issues before you file.</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button className="px-4 py-2 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg flex items-center gap-1.5 cursor-pointer shadow-sm">
+                <FileDown className="w-3.5 h-3.5" /> Export worklist
+              </button>
+              <button onClick={() => setIsValidated(true)} className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg flex items-center gap-1.5 shadow-md cursor-pointer border-none active:scale-95 transition-all">
+                <Play className="w-4 h-4" /> Run validation
+              </button>
+            </div>
+          </div>
+
+          {/* Role Toggles (Full width bar) */}
+          <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+            <button 
+              onClick={() => setValidatorRole("Students")}
+              className={`px-6 py-1.5 rounded-full text-xs font-bold transition-colors cursor-pointer border-none ${validatorRole === "Students" ? "bg-indigo-600 text-white" : "bg-transparent text-slate-600 hover:text-indigo-600"}`}
+            >
+              Students
+            </button>
+            <button 
+              onClick={() => setValidatorRole("Staff")}
+              className={`px-6 py-1.5 rounded-full text-xs font-bold transition-colors cursor-pointer border ${validatorRole === "Staff" ? "bg-indigo-600 text-white border-transparent" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"}`}
+            >
+              Staff
+            </button>
+          </div>
+
+          {/* Metric Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-3xs flex items-center gap-4">
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0"><XCircle className="w-5 h-5 text-red-500" /></div>
+              <div>
+                <div className="text-2xl font-black text-slate-800">{isValidated ? "0" : "249"}</div>
+                <div className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider">OPEN ERRORS</div>
+              </div>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-3xs flex items-center gap-4">
+              <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center shrink-0"><AlertCircle className="w-5 h-5 text-amber-500" /></div>
+              <div>
+                <div className="text-2xl font-black text-slate-800">{isValidated ? "0" : "284"}</div>
+                <div className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider">OPEN WARNINGS</div>
+              </div>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-3xs flex items-center gap-4">
+              <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center shrink-0"><UserX className="w-5 h-5 text-indigo-500" /></div>
+              <div>
+                <div className="text-2xl font-black text-slate-800">0</div>
+                <div className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider">ACCEPTED EXCEPTIONS</div>
+              </div>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-3xs flex flex-col justify-center gap-1">
+              <p className="text-[10px] text-slate-500 font-semibold leading-relaxed">
+                Last run {isValidated ? "0 seconds" : "16 hours"} ago over {isValidated ? "283" : "282"} record(s) by school admin.<br/>
+                Active checks: none (install a pack).
+              </p>
+            </div>
+          </div>
+
+          {/* Filters */}
+          <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4">
+            {[
+              { id: "All checks", label: `All checks (${isValidated ? 0 : 533})` },
+              { id: "aadhaar_verhoeff", label: `aadhaar_verhoeff (${isValidated ? 0 : 249})` },
+              { id: "dob_age_mismatch", label: `dob_age_mismatch (${isValidated ? 0 : 4})` },
+              { id: "invalid_ifsc", label: `invalid_ifsc (${isValidated ? 0 : 1})` },
+              { id: "missing_apaar", label: `missing_apaar (${isValidated ? 0 : 279})` }
+            ].map(f => (
+              <button 
+                key={f.id}
+                onClick={() => setActiveFilter(f.id)}
+                className={`px-4 py-1.5 rounded-full text-[11px] font-bold transition-colors cursor-pointer border ${activeFilter === f.id ? "bg-indigo-600 text-white border-indigo-600" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"}`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Search */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-700">Find a student</label>
+            <div className="flex gap-2">
+              <div className="relative flex-1 max-w-sm">
+                <input 
+                  type="text" 
+                  value={validatorSearch}
+                  onChange={e => setValidatorSearch(e.target.value)}
+                  placeholder="Name or admission no..." 
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-semibold focus:outline-none focus:border-indigo-600 bg-white" 
+                />
+              </div>
+              <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg cursor-pointer border-none flex items-center gap-1.5">
+                <Search className="w-3.5 h-3.5" /> Search
+              </button>
+            </div>
+          </div>
+
+          {/* Findings Table */}
+          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-3xs">
+            <div className="flex items-center justify-between px-5 py-3 border-b bg-slate-50/50">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-700"><ListFilter className="w-4 h-4 text-indigo-500" /><span>Findings</span></div>
+              <span className="text-[10px] text-slate-400 font-semibold">{isValidated ? "0" : "533"} finding(s)</span>
+            </div>
+            
+            {isValidated ? (
+              <div className="flex flex-col items-center justify-center py-20 space-y-3">
+                <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 text-indigo-500" />
+                </div>
+                <div className="text-center space-y-1">
+                  <h3 className="font-bold text-slate-700 text-sm">No issues — this data is clean.</h3>
+                  <p className="text-[11px] text-slate-500 font-semibold">Last checked 0 seconds ago.</p>
+                </div>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-indigo-50 border-b border-slate-200 text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider">
+                      <th className="py-3 px-4 border-r">STUDENT</th>
+                      <th className="py-3 px-4 border-r">SEVERITY</th>
+                      <th className="py-3 px-4 border-r">CHECK</th>
+                      <th className="py-3 px-4 border-r w-1/2">ISSUE</th>
+                      <th className="py-3 px-4 text-center">ACTION</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-xs font-semibold">
+                    {[
+                      "Aarav Chaudhary (YISADM-069)",
+                      "Aaryan Mehta (YISADM-263)",
+                      "Aaryan Pandey (YISADM-143)",
+                      "Aaryan Patel (YISADM-203)",
+                      "Aaryan Prakash (YISADM-191)"
+                    ].map((name, i) => (
+                      <tr key={i} className="hover:bg-slate-50/50">
+                        <td className="py-3 px-4 border-r text-slate-800">{name}</td>
+                        <td className="py-3 px-4 border-r"><span className="text-red-500 font-extrabold">Error</span></td>
+                        <td className="py-3 px-4 border-r text-slate-700">Aadhaar Verhoeff</td>
+                        <td className="py-3 px-4 border-r text-slate-500">Failed Aadhaar checksum: National ID / Aadhaar.</td>
+                        <td className="py-3 px-4 text-center space-x-2">
+                          <button className="px-3 py-1.5 border border-slate-300 rounded text-[11px] font-bold text-slate-600 bg-white hover:bg-slate-50 cursor-pointer">Fix</button>
+                          <button className="px-3 py-1.5 border border-slate-300 rounded text-[11px] font-bold text-slate-600 bg-white hover:bg-slate-50 cursor-pointer">Accept</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════ GOVERNMENT REPORTS ══════════════ */}
+      {view === "government-reports" && (
+        <div className="space-y-5 animate-in fade-in duration-150">
+          <div className="flex items-start gap-3">
+            <div>
+              <div className="flex items-center gap-2">
+                <FileOutput className="w-6 h-6 text-slate-850" />
+                <h1 className="text-2xl font-bold text-slate-850 tracking-tight">Government Reports</h1>
+              </div>
+              <p className="text-slate-450 text-xs font-semibold mt-0.5 ml-8">One-click UDISE+ exports. Data is validated first — errors are flagged before you download.</p>
+            </div>
+          </div>
+
+          <div className="bg-indigo-50/50 border border-indigo-100 rounded-lg p-3 flex items-center gap-2 text-[11px] text-indigo-500 font-semibold">
+            <Info className="w-4 h-4 shrink-0" />
+            These are UDISE-format exports for you to verify against the current official template. Official layouts change each year; this is not a live government submission.
+          </div>
+
+          <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-3xs">
+            <div className="flex flex-col items-center justify-center py-20 space-y-4">
+              <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center">
+                <FileOutput className="w-5 h-5 text-indigo-400" />
+              </div>
+              <div className="text-center space-y-1">
+                <h3 className="font-bold text-slate-700 text-sm">No government reports enabled</h3>
+                <p className="text-[11px] text-slate-500 font-semibold">
+                  <button onClick={() => navigate("/compliance/packs")} className="text-orange-500 hover:underline bg-transparent border-none cursor-pointer">Install a pack</button> (e.g. India — CBSE) to enable UDISE+ exports.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════ INSPECTION CHECKLISTS ══════════════ */}
+      {view === "inspections" && (
+        <div className="space-y-5 animate-in fade-in duration-150">
+          <div className="flex items-start gap-3">
+            <div>
+              <div className="flex items-center gap-2">
+                <ClipboardList className="w-6 h-6 text-slate-850" />
+                <h1 className="text-2xl font-bold text-slate-850 tracking-tight">Inspection Checklists</h1>
+              </div>
+              <p className="text-slate-450 text-xs font-semibold mt-0.5 ml-8">Work through inspection and affiliation-renewal checklists and track progress.</p>
+            </div>
+          </div>
+
+          <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-3xs mt-4">
+            <div className="flex flex-col items-center justify-center py-20 space-y-4">
+              <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center">
+                <ClipboardList className="w-5 h-5 text-indigo-400" />
+              </div>
+              <div className="text-center space-y-1">
+                <h3 className="font-bold text-slate-700 text-sm">No inspection checklists enabled</h3>
+                <p className="text-[11px] text-slate-500 font-semibold">
+                  <button onClick={() => navigate("/compliance/packs")} className="text-orange-500 hover:underline bg-transparent border-none cursor-pointer">Install a pack</button> (e.g. India — CBSE) to enable them.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════ COMPLIANCE CALENDAR ══════════════ */}
+      {view === "calendar" && (
+        <div className="space-y-5 animate-in fade-in duration-150">
+          <div className="flex items-start gap-3">
+            <div>
+              <div className="flex items-center gap-2">
+                <Calendar className="w-6 h-6 text-slate-850" />
+                <h1 className="text-2xl font-bold text-slate-850 tracking-tight">Compliance Calendar</h1>
+              </div>
+              <p className="text-slate-450 text-xs font-semibold mt-0.5 ml-8">Upcoming statutory dates — document expiries, affiliation validity and reporting windows.</p>
+            </div>
+          </div>
+
+          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-3xs mt-4">
+            <div className="flex items-center justify-between px-5 py-3 border-b bg-slate-50/50">
+              <div className="flex items-center gap-2 text-xs font-bold text-indigo-600"><Calendar className="w-4 h-4 text-indigo-500" /><span>Upcoming Dates</span></div>
+              <span className="text-[10px] text-slate-400 font-semibold">2 event(s)</span>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-indigo-50 border-b border-slate-200 text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider">
+                    <th className="py-3 px-4 border-r">DATE</th>
+                    <th className="py-3 px-4 border-r">IN</th>
+                    <th className="py-3 px-4 border-r">TYPE</th>
+                    <th className="py-3 px-4">EVENT</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-xs font-semibold">
+                  <tr className="hover:bg-slate-50/50">
+                    <td className="py-3 px-4 border-r text-slate-700">30 Sep 2026</td>
+                    <td className="py-3 px-4 border-r text-slate-700">38d</td>
+                    <td className="py-3 px-4 border-r"><span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] border border-slate-200 font-bold">Statutory</span></td>
+                    <td className="py-3 px-4 text-slate-600">UDISE+ data collection freeze (indicative)</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50/50">
+                    <td className="py-3 px-4 border-r text-slate-700">31 Jul 2027</td>
+                    <td className="py-3 px-4 border-r text-slate-700">342d</td>
+                    <td className="py-3 px-4 border-r"><span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] border border-slate-200 font-bold">Statutory</span></td>
+                    <td className="py-3 px-4 text-slate-600">SARAS / OASIS annual update window (indicative)</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

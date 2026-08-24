@@ -28,6 +28,85 @@ import FeeDataAudit from "./pages/finance/FeeDataAudit";
 import AccountsDashboard from "./pages/accounts/AccountsDashboard";
 import Income from "./pages/accounts/Income";
 import AddNewIncome from "./pages/accounts/AddNewIncome";
+
+// Attendance Module
+import QRAttendance from "./pages/attendance/QRAttendance";
+import QRAttendanceSettings from "./pages/attendance/QRAttendanceSettings";
+import QRAttendanceReport from "./pages/attendance/QRAttendanceReport";
+import QRScanAuditLog from "./pages/attendance/QRScanAuditLog";
+
+// Biometric Module
+import BiometricDevices from "./pages/biometric/BiometricDevices";
+
+// Assessment Module
+import AssessmentDashboard from "./pages/assessment/AssessmentDashboard";
+import OfflineExaminations from "./pages/assessment/OfflineExaminations";
+import ManageOfflineExams from "./pages/assessment/ManageOfflineExams";
+import QuickExamSetup from "./pages/assessment/QuickExamSetup";
+import Datesheet from "./pages/assessment/Datesheet";
+import AdmitCards from "./pages/assessment/AdmitCards";
+import CardSettings from "./pages/assessment/CardSettings";
+import ResultSettings from "./pages/assessment/ResultSettings";
+import EditExam from "./pages/assessment/EditExam";
+import AddExamType from "./pages/assessment/AddExamType";
+import ScheduleMarksSetup from "./pages/assessment/ScheduleMarksSetup";
+import EnterMarks from "./pages/assessment/EnterMarks";
+import ManageCocurricular from "./pages/assessment/ManageCocurricular";
+import AddCocurricular from "./pages/assessment/AddCocurricular";
+import EditCocurricular from "./pages/assessment/EditCocurricular";
+import CocurricularGrades from "./pages/assessment/CocurricularGrades";
+import ManageGrades from "./pages/assessment/ManageGrades";
+import AddGrade from "./pages/assessment/AddGrade";
+import EditGrade from "./pages/assessment/EditGrade";
+import ReportCardSetups from "./pages/assessment/ReportCardSetups";
+import AddReportCardSetup from "./pages/assessment/AddReportCardSetup";
+import EditReportCardSetup from "./pages/assessment/EditReportCardSetup";
+import GenerateMarksheet from "./pages/assessment/GenerateMarksheet";
+import ReportCardView from "./pages/assessment/ReportCardView";
+import UploadMarksheet from "./pages/assessment/UploadMarksheet";
+import ManageUploads from "./pages/assessment/ManageUploads";
+import TeacherRemarks from "./pages/assessment/TeacherRemarks";
+import ManageDatesheet from "./pages/assessment/ManageDatesheet";
+import OSMDashboard from "./pages/osm/OSMDashboard";
+import OSMSessions from "./pages/osm/OSMSessions";
+import OSMSessionDetails from "./pages/osm/OSMSessionDetails";
+import OSMNewSession from "./pages/osm/OSMNewSession";
+import OSMEvaluate from "./pages/osm/OSMEvaluate";
+import OSMReports from "./pages/osm/OSMReports";
+import OSMGuide from "./pages/osm/OSMGuide";
+import OSMModeration from "./pages/osm/OSMModeration";
+
+import LessonPlannerDashboard from "./pages/lesson-planner/LessonPlannerDashboard";
+import LessonPlans from "./pages/lesson-planner/LessonPlans";
+import LessonPlannerReview from "./pages/lesson-planner/LessonPlannerReview";
+import LessonPlannerApprovals from "./pages/lesson-planner/LessonPlannerApprovals";
+import LessonPlannerCoverage from "./pages/lesson-planner/LessonPlannerCoverage";
+import LessonPlannerSettings from "./pages/lesson-planner/LessonPlannerSettings";
+import LessonPlannerReports from "./pages/lesson-planner/LessonPlannerReports";
+import LessonPlannerGuide from "./pages/lesson-planner/LessonPlannerGuide";
+import NewLessonPlan from "./pages/lesson-planner/NewLessonPlan";
+
+// PTM
+import PTMDashboard from "./pages/ptm/PTMDashboard";
+import SchedulePTM from "./pages/ptm/SchedulePTM";
+import PTMAttendance from "./pages/ptm/PTMAttendance";
+import PTMDetail from "./pages/ptm/PTMDetail";
+import PTMFollowups from "./pages/ptm/PTMFollowups";
+import PTMReports from "./pages/ptm/PTMReports";
+import PTMGuide from "./pages/ptm/PTMGuide";
+
+// HR Module
+import HRDashboard from "./pages/hr/HRDashboard";
+import HRStaffDirectory from "./pages/hr/HRStaffDirectory";
+import HRAddStaff from "./pages/hr/HRAddStaff";
+import HRStaffProfile from "./pages/hr/HRStaffProfile";
+
+import ManageOnlineExams from "./pages/online-exams/ManageOnlineExams";
+import QuestionBank from "./pages/online-exams/QuestionBank";
+import BulkQuestionUpload from "./pages/online-exams/BulkQuestionUpload";
+import AddNewQuestion from "./pages/online-exams/AddNewQuestion";
+import ChaptersTopics from "./pages/online-exams/ChaptersTopics";
+
 import Expense from "./pages/accounts/Expense";
 import AddNewExpense from "./pages/accounts/AddNewExpense";
 import IncomeHeads from "./pages/accounts/IncomeHeads";
@@ -54,6 +133,9 @@ import AddStudentCategory from "./pages/students/AddStudentCategory";
 import TCAndExit from "./pages/students/TCAndExit";
 import StudentHealthRecords from "./pages/students/StudentHealthRecords";
 import HealthDashboard from "./pages/students/HealthDashboard";
+
+// Surveys Module
+import SurveysDashboard from "./pages/surveys/SurveysDashboard";
 
 // Academics Module
 import AcademicDashboard from "./pages/academics/AcademicDashboard";
@@ -352,6 +434,118 @@ function App() {
         <Route path="/compliance/government-reports" element={<ComplianceDashboard />} />
         <Route path="/compliance/inspections" element={<ComplianceDashboard />} />
         <Route path="/compliance/calendar" element={<ComplianceDashboard />} />
+        
+        {/* Surveys Module */}
+        <Route path="/surveys/dashboard" element={<SurveysDashboard />} />
+        <Route path="/surveys/create" element={<SurveysDashboard />} />
+        <Route path="/surveys/all" element={<SurveysDashboard />} />
+        <Route path="/surveys/my-surveys" element={<SurveysDashboard />} />
+        <Route path="/surveys/feedback-triage" element={<SurveysDashboard />} />
+        <Route path="/surveys/guide" element={<SurveysDashboard />} />
+        <Route path="/surveys/templates" element={<SurveysDashboard />} />
+        
+        {/* Attendance Module */}
+        <Route path="/qr-attendance/attendance" element={<QRAttendance />} />
+        <Route path="/qr-attendance/setting" element={<QRAttendanceSettings />} />
+        <Route path="/qr-attendance/report" element={<QRAttendanceReport />} />
+        <Route path="/qr-attendance/scan-audit" element={<QRScanAuditLog />} />
+        
+        {/* Biometric Module */}
+        <Route path="/biometric/all-devices" element={<BiometricDevices />} />
+        <Route path="/biometric/add-device" element={<BiometricDevices />} />
+        <Route path="/biometric/attendance-logs" element={<BiometricDevices />} />
+        <Route path="/biometric/live-log" element={<BiometricDevices />} />
+        <Route path="/biometric/face-monitoring" element={<BiometricDevices />} />
+        <Route path="/biometric/review-queue" element={<BiometricDevices />} />
+        <Route path="/biometric/agent-logs" element={<BiometricDevices />} />
+        
+        {/* Assessment Module */}
+        <Route path="/assessment/dashboard" element={<AssessmentDashboard />} />
+        
+        {/* Offline Exams Module */}
+        <Route path="/offline-exams/dashboard" element={<OfflineExaminations />} />
+        <Route path="/offline-exams/manage" element={<ManageOfflineExams />} />
+        <Route path="/offline-exams/quick-setup" element={<QuickExamSetup />} />
+        <Route path="/offline-exams/datesheet" element={<Datesheet />} />
+        <Route path="/offline-exams/admit-cards" element={<AdmitCards />} />
+        <Route path="/offline-exams/card-settings" element={<CardSettings />} />
+        <Route path="/offline-exams/result-settings" element={<ResultSettings />} />
+        <Route path="/offline-exams/edit" element={<EditExam />} />
+        <Route path="/offline-exams/types/add" element={<AddExamType />} />
+        <Route path="/offline-exams/types" element={<OfflineExaminations initialTab="Exam Types" />} />
+        <Route path="/offline-exams/schedule-marks" element={<ScheduleMarksSetup />} />
+        <Route path="/offline-exams/enter-marks" element={<EnterMarks />} />
+        <Route path="/offline-exams/cocurricular-areas" element={<ManageCocurricular />} />
+        <Route path="/offline-exams/cocurricular-areas/add" element={<AddCocurricular />} />
+        <Route path="/offline-exams/cocurricular-areas/edit" element={<EditCocurricular />} />
+        <Route path="/offline-exams/cocurricular-grades" element={<CocurricularGrades />} />
+        <Route path="/offline-exams/manage-grades" element={<ManageGrades />} />
+        <Route path="/offline-exams/manage-grades/add" element={<AddGrade />} />
+        <Route path="/offline-exams/manage-grades/edit" element={<EditGrade />} />
+        <Route path="/offline-exams/quick-setup" element={<QuickExamSetup />} />
+        
+        <Route path="/offline-exams/report-card-setups" element={<ReportCardSetups />} />
+        <Route path="/offline-exams/report-card-setups/add" element={<AddReportCardSetup />} />
+        <Route path="/offline-exams/report-card-setups/edit" element={<EditReportCardSetup />} />
+
+        <Route path="/offline-exams/generate-marksheet" element={<GenerateMarksheet />} />
+        <Route path="/offline-exams/report-card-view" element={<ReportCardView />} />
+        <Route path="/offline-exams/upload-marksheet" element={<UploadMarksheet />} />
+        <Route path="/offline-exams/manage-uploads" element={<ManageUploads />} />
+        <Route path="/offline-exams/teacher-remarks" element={<TeacherRemarks />} />
+        <Route path="/offline-exams/datesheet/manage" element={<ManageDatesheet />} />
+
+        <Route path="/osm-module/dashboard" element={<OSMDashboard />} />
+        <Route path="/osm-module/sessions" element={<OSMSessions />} />
+        <Route path="/osm-module/sessions/details" element={<OSMSessionDetails />} />
+        <Route path="/osm-module/sessions/new" element={<OSMNewSession />} />
+        <Route path="/osm-module/evaluate" element={<OSMEvaluate />} />
+        <Route path="/osm-module/moderation" element={<OSMModeration />} />
+        <Route path="/osm-module/reports" element={<OSMReports />} />
+        <Route path="/osm-module/guide" element={<OSMGuide />} />
+
+        <Route path="/lesson-planner/dashboard" element={<LessonPlannerDashboard />} />
+        <Route path="/lesson-planner/plans" element={<LessonPlans />} />
+        <Route path="/lesson-planner/review" element={<LessonPlannerReview />} />
+        <Route path="/lesson-planner/approvals" element={<LessonPlannerApprovals />} />
+        <Route path="/lesson-planner/coverage" element={<LessonPlannerCoverage />} />
+        <Route path="/lesson-planner/settings" element={<LessonPlannerSettings />} />
+        <Route path="/lesson-planner/reports" element={<LessonPlannerReports />} />
+        <Route path="/lesson-planner/guide" element={<LessonPlannerGuide />} />
+        <Route path="/lesson-planner/new" element={<NewLessonPlan />} />
+
+        <Route path="/ptm/dashboard" element={<PTMDashboard />} />
+        <Route path="/ptm/schedule" element={<SchedulePTM />} />
+        <Route path="/ptm/attendance" element={<PTMAttendance />} />
+        <Route path="/ptm/details/:id" element={<PTMDetail />} />
+        <Route path="/ptm/followups" element={<PTMFollowups />} />
+        <Route path="/ptm/reports" element={<PTMReports />} />
+        <Route path="/ptm/guide" element={<PTMGuide />} />
+
+        {/* HR Module */}
+        <Route path="/hr/dashboard" element={<HRDashboard />} />
+        <Route path="/hr/staff" element={<HRStaffDirectory />} />
+        <Route path="/hr/staff/new" element={<HRAddStaff />} />
+        <Route path="/hr/staff/edit/:id" element={<HRAddStaff />} />
+        <Route path="/hr/staff/profile/:id" element={<HRStaffProfile />} />
+
+        <Route path="/online-exams/manage" element={<ManageOnlineExams />} />
+        <Route path="/online-exams/question-bank" element={<QuestionBank />} />
+        <Route path="/online-exams/question-bank/bulk-upload" element={<BulkQuestionUpload />} />
+        <Route path="/online-exams/question-bank/new" element={<AddNewQuestion />} />
+        <Route path="/online-exams/chapters-topics" element={<ChaptersTopics />} />
+
+        <Route path="/assessment/offline-exams" element={<OfflineExaminations />} />
+
+        <Route path="/assessment/new" element={<AssessmentDashboard />} />
+        <Route path="/assessment/assessments" element={<AssessmentDashboard />} />
+        <Route path="/assessment/list" element={<AssessmentDashboard />} />
+        <Route path="/assessment/reports" element={<AssessmentDashboard />} />
+        <Route path="/assessment/analytics" element={<AssessmentDashboard />} />
+        <Route path="/assessment/student-report" element={<AssessmentDashboard />} />
+        <Route path="/assessment/rank-list" element={<AssessmentDashboard />} />
+        <Route path="/assessment/guide" element={<AssessmentDashboard />} />
+        
         {/* Placeholder routes for other menu items to avoid 404s */}
         <Route path="/academics/sessions" element={<AcademicSessions />} />
         <Route path="/academics/sessions/add" element={<AddNewSession />} />

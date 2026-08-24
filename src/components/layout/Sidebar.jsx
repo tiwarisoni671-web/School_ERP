@@ -568,7 +568,6 @@ const Sidebar = ({ isCollapsed }) => {
                   <item.icon className="w-4 h-4" />
                   {!isCollapsed && <span>{item.name}</span>}
                 </div>
-                {!isCollapsed && <ChevronLeft className="w-4 h-4 text-gray-500" />}
               </NavLink>
             )}
           </li>
