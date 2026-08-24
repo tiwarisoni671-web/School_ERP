@@ -100,6 +100,14 @@ import HRDashboard from "./pages/hr/HRDashboard";
 import HRStaffDirectory from "./pages/hr/HRStaffDirectory";
 import HRAddStaff from "./pages/hr/HRAddStaff";
 import HRStaffProfile from "./pages/hr/HRStaffProfile";
+import HRAttendance from "./pages/hr/HRAttendance";
+import HRPayroll from "./pages/hr/HRPayroll";
+import HRSetSalary from "./pages/hr/HRSetSalary";
+import HRApproveLeave from "./pages/hr/HRApproveLeave";
+import HRLeaveTypes from "./pages/hr/HRLeaveTypes";
+import HRDepartments from "./pages/hr/HRDepartments";
+import HRDesignations from "./pages/hr/HRDesignations";
+import HRIdCards from "./pages/hr/HRIdCards";
 
 import ManageOnlineExams from "./pages/online-exams/ManageOnlineExams";
 import QuestionBank from "./pages/online-exams/QuestionBank";
@@ -248,7 +256,7 @@ function App() {
         <Route path="/certificates/documents" element={<GenerateDocument />} />
         
         <Route path="/id-cards/student" element={<IdCardsStudent initialTab="student" />} />
-        <Route path="/id-cards/staff" element={<IdCardsStudent initialTab="staff" />} />
+        <Route path="/id-cards/staff" element={<HRIdCards />} />
         <Route path="/id-cards/designs" element={<IdCardsStudent initialTab="designs" />} />
         <Route path="/id-cards/templates" element={<IdCardTemplates />} />
         
@@ -528,6 +536,15 @@ function App() {
         <Route path="/hr/staff/new" element={<HRAddStaff />} />
         <Route path="/hr/staff/edit/:id" element={<HRAddStaff />} />
         <Route path="/hr/staff/profile/:id" element={<HRStaffProfile />} />
+        <Route path="/hr/attendance" element={<HRAttendance />} />
+        <Route path="/hr/staff-attendance" element={<HRAttendance />} />
+        <Route path="/hr/payroll" element={<HRPayroll />} />
+        <Route path="/hr/set-salary" element={<HRSetSalary />} />
+        <Route path="/hr/approve-leave" element={<HRApproveLeave />} />
+        <Route path="/hr/leave-types" element={<HRLeaveTypes />} />
+        <Route path="/hr/departments" element={<HRDepartments />} />
+        <Route path="/hr/designations" element={<HRDesignations />} />
+        <Route path="/hr/id-cards" element={<HRIdCards />} />
 
         <Route path="/online-exams/manage" element={<ManageOnlineExams />} />
         <Route path="/online-exams/question-bank" element={<QuestionBank />} />
